@@ -1,0 +1,23 @@
+{
+    "blogApp": {
+        "keyWord" : {
+            "home": {
+                "title": "KeyWords",
+                "createLabel": "Créer un nouveau Key Word",
+                "createOrEditLabel": "Créer ou éditer un Key Word",
+                "search": "Recherche pour Key Word"
+            },
+            "created": "Un nouveau Key Word a été créé avec l'identifiant {{ param }}",
+            "updated": "Le Key Word avec l'identifiant {{ param }} a été mis à jour",
+            "deleted": "Le Key Word avec l'identifiant {{ param }} a été supprimé",
+            "delete": {
+                "question": "Etes-vous certain de vouloir supprimer le Key Word {{ id }} ?"
+            },
+            "detail": {
+                "title": "Key Word"
+            },
+            "word": "Word",
+            "blogItem": "Blog Item"
+        }
+    }
+}

@@ -1,0 +1,37 @@
+{
+    "blogApp": {
+        "blogItem" : {
+            "home": {
+                "title": "BlogItems",
+                "createLabel": "Créer un nouveau Blog Item",
+                "createOrEditLabel": "Créer ou éditer un Blog Item",
+                "search": "Recherche pour Blog Item"
+            },
+            "created": "Un nouveau Blog Item a été créé avec l'identifiant {{ param }}",
+            "updated": "Le Blog Item avec l'identifiant {{ param }} a été mis à jour",
+            "deleted": "Le Blog Item avec l'identifiant {{ param }} a été supprimé",
+            "delete": {
+                "question": "Etes-vous certain de vouloir supprimer le Blog Item {{ id }} ?"
+            },
+            "detail": {
+                "title": "Blog Item"
+            },
+            "title": "Title",
+            "url": "Url",
+            "text": "Text",
+            "staus": "Staus",
+            "created": "Created",
+            "updated": "Updated",
+            "image": "Image",
+            "visiblity": "Visiblity",
+            "password": "Password",
+            "blog": "Blog",
+            "comments": "Comments",
+            "keywords": "Keywords",
+            "blogItem": "Blog Item",
+            "histories": "Histories",
+            "author": "Author",
+            "tags": "Tags"
+        }
+    }
+}

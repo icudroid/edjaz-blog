@@ -1,0 +1,10 @@
+{
+    "blogApp": {
+        "ItemStatus" : {
+            "null": "",
+            "PUBLISHED": "PUBLISHED",
+            "TRASH": "TRASH",
+            "DRAFT": "DRAFT"
+        }
+    }
+}

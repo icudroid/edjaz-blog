@@ -1,0 +1,116 @@
+<div>
+    <h2>
+        <span jhiTranslate="blogApp.blogItem.home.title">Blog Items</span>
+        <button class="btn btn-primary float-right jh-create-entity create-blog-item" [routerLink]="['/', { outlets: { popup: ['blog-item-new'] } }]">
+            <span class="fa fa-plus"></span>
+            <span class="hidden-sm-down"  jhiTranslate="blogApp.blogItem.home.createLabel">
+            Create new Blog Item
+            </span>
+        </button>
+    </h2>
+    <jhi-alert></jhi-alert>
+    <div class="row">
+        <div class="col-sm-12">
+            <form name="searchForm" class="form-inline">
+                <div class="input-group w-100 mt-3">
+                    <input type="text" class="form-control" [(ngModel)]="currentSearch" id="currentSearch" name="currentSearch" placeholder="{{ 'blogApp.blogItem.home.search' | translate }}">
+                    <button class="input-group-addon btn btn-info" (click)="search(currentSearch)">
+                        <span class="fa fa-search"></span>
+                    </button>
+                    <button class="input-group-addon btn btn-danger" (click)="clear()" *ngIf="currentSearch">
+                        <span class="fa fa-trash-o"></span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <br/>
+    <div class="table-responsive" *ngIf="blogItems">
+        <table class="table table-striped">
+            <thead>
+            <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
+            <th jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="title"><span jhiTranslate="blogApp.blogItem.title">Title</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="url"><span jhiTranslate="blogApp.blogItem.url">Url</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="text"><span jhiTranslate="blogApp.blogItem.text">Text</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="staus"><span jhiTranslate="blogApp.blogItem.staus">Staus</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="created"><span jhiTranslate="blogApp.blogItem.created">Created</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="updated"><span jhiTranslate="blogApp.blogItem.updated">Updated</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="image"><span jhiTranslate="blogApp.blogItem.image">Image</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="visiblity"><span jhiTranslate="blogApp.blogItem.visiblity">Visiblity</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="password"><span jhiTranslate="blogApp.blogItem.password">Password</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="blogId"><span jhiTranslate="blogApp.blogItem.blog">Blog</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="blogItemId"><span jhiTranslate="blogApp.blogItem.blogItem">Blog Item</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="authorId"><span jhiTranslate="blogApp.blogItem.author">Author</span> <span class="fa fa-sort"></span></th>
+            <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let blogItem of blogItems ;trackBy: trackId">
+                <td><a [routerLink]="['../blog-item', blogItem.id ]">{{blogItem.id}}</a></td>
+                <td>{{blogItem.title}}</td>
+                <td>{{blogItem.url}}</td>
+                <td>{{blogItem.text}}</td>
+                <td jhiTranslate="{{'blogApp.ItemStatus.' + blogItem.staus}}">{{blogItem.staus}}</td>
+                <td>{{blogItem.created | date:'medium'}}</td>
+                <td>{{blogItem.updated | date:'medium'}}</td>
+                <td>
+                    <a *ngIf="blogItem.image" (click)="openFile(blogItem.imageContentType, blogItem.image)">
+                        <img [src]="'data:' + blogItem.imageContentType + ';base64,' + blogItem.image" style="max-height: 30px;" alt="blogItem image"/>
+                    </a>
+                    <span *ngIf="blogItem.image">{{blogItem.imageContentType}}, {{byteSize(blogItem.image)}}</span>
+                </td>
+                <td jhiTranslate="{{'blogApp.ItemVisibility.' + blogItem.visiblity}}">{{blogItem.visiblity}}</td>
+                <td>{{blogItem.password}}</td>
+                <td>
+                    <div *ngIf="blogItem.blogId">
+                        <a [routerLink]="['../blog', blogItem.blogId  ]" >{{blogItem.blogId}}</a>
+                    </div>
+                </td>
+                <td>
+                    <div *ngIf="blogItem.blogItemId">
+                        <a [routerLink]="['../blog-item', blogItem.blogItemId  ]" >{{blogItem.blogItemId}}</a>
+                    </div>
+                </td>
+                <td>
+                    {{blogItem.authorId}}
+                </td>
+                <td class="text-right">
+                    <div class="btn-group flex-btn-group-container">
+                        <button type="submit"
+                                [routerLink]="['../blog-item', blogItem.id ]"
+                                class="btn btn-info btn-sm">
+                            <span class="fa fa-eye"></span>
+                            <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/', { outlets: { popup: 'blog-item/'+ blogItem.id + '/edit'} }]"
+                                replaceUrl="true"
+                                queryParamsHandling="merge"
+                                class="btn btn-primary btn-sm">
+                            <span class="fa fa-pencil"></span>
+                            <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/', { outlets: { popup: 'blog-item/'+ blogItem.id + '/delete'} }]"
+                                replaceUrl="true"
+                                queryParamsHandling="merge"
+                                class="btn btn-danger btn-sm">
+                            <span class="fa fa-remove"></span>
+                            <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div *ngIf="blogItems && blogItems.length">
+        <div class="row justify-content-center">
+            <jhi-item-count [page]="page" [total]="queryCount" [maxSize]="5" [itemsPerPage]="itemsPerPage"></jhi-item-count>
+        </div>
+        <div class="row justify-content-center">
+            <ngb-pagination [collectionSize]="totalItems" [(page)]="page" [pageSize]="itemsPerPage" [maxSize]="5" [rotate]="true" [boundaryLinks]="true" (pageChange)="loadPage(page)"></ngb-pagination>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,136 @@
+// On pourra gérer un plusieurs
+// Donc mon cas, je n'ai besoin que d'un seul blog
+entity Blog {
+	// Titre du blog
+	title String required minlength(3) maxlength(60)
+    // Description du blog
+    descritpion String required maxlength(1024)
+    // Image en header du site
+    image ImageBlob
+}
+
+// Chaque article peut être dans les états suivants :
+// PUBLISHED : publié, il peut donc être consulté
+// TRASH : à la corbeille
+// DRAFT : en cours d'écriture
+enum ItemStatus {
+    PUBLISHED, TRASH, DRAFT
+}
+
+// Limité la lecture
+// PUBLIC : Tout le monde
+// PRIVATE : Seul l'auteur
+// PROTECTED : protégé par mot de passe
+enum ItemVisibility {
+    PUBLIC, PRIVATE, PROTECTED
+}
+
+
+// objet réprésentant un article
+entity BlogItem {
+	// son titre
+	title String required minlength(3) maxlength(60)
+    // pour un accès par url
+    // exemple : http://www.edjaz.fr/2018/01/01/{url}
+    url String required minlength(3) maxlength(30) pattern(/[A-Z]+/)
+    // l'article sera enregistrer dans un seul champs même les images
+    text TextBlob required
+    // statut
+    staus ItemStatus required
+    // Date de création
+    created ZonedDateTime required
+    // Date de modification
+    updated ZonedDateTime
+    // Image entête de l'article
+    image ImageBlob
+    // accès à l'article
+    visiblity ItemVisibility
+    // si la visibilité est PROTECTED, il est protéger par mot de passe
+    password String
+}
+
+// Mot clé que ne sont pas visible, mais qui serviront pout les moteurs de recherche
+entity KeyWord {
+	word String required
+}
+
+// Tag sur les articles
+entity Tag {
+	name String required
+    descritpion String required
+}
+
+// commentaire
+entity CommentBlogItem {
+	// commentaire
+    text String required minlength(3) maxlength(512)
+    // date de création
+    created ZonedDateTime required
+    // pour les modifications
+    updated ZonedDateTime
+    // statut
+    status CommentStatus required
+}
+
+// Etat d'un commentaire
+// DESAPPROUVED : désaprouvé
+// CREATED : créer
+// MODIFY : modifié
+// SPAM : indésirable
+// TRASH : à la corbeille
+enum CommentStatus {
+    DESAPPROUVED, CREATED, MODIFY, SPAM, TRASH
+}
+
+relationship OneToOne {
+	//créateur du blog
+    Blog{author} to User
+}
+
+relationship OneToMany {
+	// Un blog peut avoir plusieurs articles
+    Blog{items} to BlogItem
+}
+
+relationship OneToMany {
+	// un article peut avoir des commentaires
+	BlogItem{comments} to CommentBlogItem
+    // un article peut avoir des mots clés
+    BlogItem{keywords} to KeyWord
+    // un article à un historique de modifications
+    BlogItem{histories} to BlogItem
+}
+
+// Un article peut avoir plusieurs tags
+relationship ManyToMany {
+	BlogItem{tags} to Tag
+}
+
+relationship ManyToOne {
+	// auteur de l'article
+    BlogItem{author} to User
+}
+
+relationship OneToMany {
+	// on peut répondre au commentaire
+    CommentBlogItem{replies} to CommentBlogItem
+}
+
+relationship ManyToOne {
+	// auteur du commentaire
+    CommentBlogItem{author} to User
+}
+
+// Mettre la gestion du scroll infini sur les articles et les commentaire
+paginate BlogItem, CommentBlogItem  with infinite-scroll
+// Pour tout le reste en pagination standard
+paginate all with pagination
+
+// Je n'ai pas la façon dont sont gérer les DTO mais on modifira après la génération
+dto * with mapstruct
+
+// D'utilise les interfaces pour mes services.
+service all with serviceImpl
+
+// Je veux que l'on puisse faire des recherches sur les articles
+search BlogItem with elasticsearch

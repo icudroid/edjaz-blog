@@ -1,0 +1,10 @@
+{
+    "blogApp": {
+        "ItemVisibility" : {
+            "null": "",
+            "PUBLIC": "PUBLIC",
+            "PRIVATE": "PRIVATE",
+            "PROTECTED": "PROTECTED"
+        }
+    }
+}

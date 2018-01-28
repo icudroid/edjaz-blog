@@ -1,0 +1,12 @@
+{
+    "blogApp": {
+        "CommentStatus" : {
+            "null": "",
+            "DESAPPROUVED": "DESAPPROUVED",
+            "CREATED": "CREATED",
+            "MODIFY": "MODIFY",
+            "SPAM": "SPAM",
+            "TRASH": "TRASH"
+        }
+    }
+}

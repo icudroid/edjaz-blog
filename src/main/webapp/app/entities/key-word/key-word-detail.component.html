@@ -1,0 +1,32 @@
+
+<div *ngIf="keyWord">
+    <h2><span jhiTranslate="blogApp.keyWord.detail.title">Key Word</span> {{keyWord.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="blogApp.keyWord.word">Word</span></dt>
+        <dd>
+            <span>{{keyWord.word}}</span>
+        </dd>
+        <dt><span jhiTranslate="blogApp.keyWord.blogItem">Blog Item</span></dt>
+        <dd>
+            <div *ngIf="keyWord.blogItemId">
+                <a [routerLink]="['/blog-item', keyWord.blogItemId]">{{keyWord.blogItemId}}</a>
+            </div>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            (click)="previousState()"
+            class="btn btn-info">
+        <span class="fa fa-arrow-left"></span>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+    </button>
+
+    <button type="button"
+            [routerLink]="['/', { outlets: { popup: 'key-word/'+ keyWord.id + '/edit'} }]"
+            replaceUrl="true"
+            queryParamsHandling="merge"
+            class="btn btn-primary">
+        <span class="fa fa-pencil"></span>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+    </button>
+</div>

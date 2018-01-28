@@ -1,0 +1,19 @@
+package com.edjaz.blog.repository;
+
+import com.edjaz.blog.domain.CommentBlogItem;
+import org.springframework.stereotype.Repository;
+
+import org.springframework.data.jpa.repository.*;
+import java.util.List;
+
+/**
+ * Spring Data JPA repository for the CommentBlogItem entity.
+ */
+@SuppressWarnings("unused")
+@Repository
+public interface CommentBlogItemRepository extends JpaRepository<CommentBlogItem, Long> {
+
+    @Query("select comment_blog_item from CommentBlogItem comment_blog_item where comment_blog_item.author.login = ?#{principal.username}")
+    List<CommentBlogItem> findByAuthorIsCurrentUser();
+
+}

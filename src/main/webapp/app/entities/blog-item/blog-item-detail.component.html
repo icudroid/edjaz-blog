@@ -1,0 +1,85 @@
+
+<div *ngIf="blogItem">
+    <h2><span jhiTranslate="blogApp.blogItem.detail.title">Blog Item</span> {{blogItem.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="blogApp.blogItem.title">Title</span></dt>
+        <dd>
+            <span>{{blogItem.title}}</span>
+        </dd>
+        <dt><span jhiTranslate="blogApp.blogItem.url">Url</span></dt>
+        <dd>
+            <span>{{blogItem.url}}</span>
+        </dd>
+        <dt><span jhiTranslate="blogApp.blogItem.text">Text</span></dt>
+        <dd>
+            <span>{{blogItem.text}}</span>
+        </dd>
+        <dt><span jhiTranslate="blogApp.blogItem.staus">Staus</span></dt>
+        <dd>
+            <span jhiTranslate="{{'blogApp.ItemStatus.' + blogItem.staus}}">{{blogItem.staus}}</span>
+        </dd>
+        <dt><span jhiTranslate="blogApp.blogItem.created">Created</span></dt>
+        <dd>
+            <span>{{blogItem.created | date:'medium'}}</span>
+        </dd>
+        <dt><span jhiTranslate="blogApp.blogItem.updated">Updated</span></dt>
+        <dd>
+            <span>{{blogItem.updated | date:'medium'}}</span>
+        </dd>
+        <dt><span jhiTranslate="blogApp.blogItem.image">Image</span></dt>
+        <dd>
+            <div *ngIf="blogItem.image">
+                <a (click)="openFile(blogItem.imageContentType, blogItem.image)">
+                    <img [src]="'data:' + blogItem.imageContentType + ';base64,' + blogItem.image" style="max-width: 100%;" alt="blogItem image"/>
+                </a>
+                {{blogItem.imageContentType}}, {{byteSize(blogItem.image)}}
+            </div>
+        </dd>
+        <dt><span jhiTranslate="blogApp.blogItem.visiblity">Visiblity</span></dt>
+        <dd>
+            <span jhiTranslate="{{'blogApp.ItemVisibility.' + blogItem.visiblity}}">{{blogItem.visiblity}}</span>
+        </dd>
+        <dt><span jhiTranslate="blogApp.blogItem.password">Password</span></dt>
+        <dd>
+            <span>{{blogItem.password}}</span>
+        </dd>
+        <dt><span jhiTranslate="blogApp.blogItem.blog">Blog</span></dt>
+        <dd>
+            <div *ngIf="blogItem.blogId">
+                <a [routerLink]="['/blog', blogItem.blogId]">{{blogItem.blogId}}</a>
+            </div>
+        </dd>
+        <dt><span jhiTranslate="blogApp.blogItem.blogItem">Blog Item</span></dt>
+        <dd>
+            <div *ngIf="blogItem.blogItemId">
+                <a [routerLink]="['/blog-item', blogItem.blogItemId]">{{blogItem.blogItemId}}</a>
+            </div>
+        </dd>
+        <dt><span jhiTranslate="blogApp.blogItem.author">Author</span></dt>
+        <dd>
+            {{blogItem.authorId}}
+        </dd>
+        <dt><span jhiTranslate="blogApp.blogItem.tags">Tags</span></dt>
+        <dd>
+            <span *ngFor="let tags of blogItem.tags; let last = last">
+                <a [routerLink]="['/tag', tags?.id ]">{{tags.id}}</a>{{last ? '' : ', '}}
+            </span>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            (click)="previousState()"
+            class="btn btn-info">
+        <span class="fa fa-arrow-left"></span>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+    </button>
+
+    <button type="button"
+            [routerLink]="['/', { outlets: { popup: 'blog-item/'+ blogItem.id + '/edit'} }]"
+            replaceUrl="true"
+            queryParamsHandling="merge"
+            class="btn btn-primary">
+        <span class="fa fa-pencil"></span>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+    </button>
+</div>
