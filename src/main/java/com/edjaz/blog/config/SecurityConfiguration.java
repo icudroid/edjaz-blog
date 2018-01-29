@@ -100,6 +100,13 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             .antMatchers("/api/account/reset-password/init").permitAll()
             .antMatchers("/api/account/reset-password/finish").permitAll()
             .antMatchers("/api/profile-info").permitAll()
+
+            /********************************************************************************/
+            /********************************************************************************/
+            /****************** Attention route à protéger sur le controlleur ***************/
+            .antMatchers("/api/setup/**").permitAll()
+            /********************************************************************************/
+            /********************************************************************************/
             .antMatchers("/api/**").authenticated()
             .antMatchers("/management/health").permitAll()
             .antMatchers("/management/**").hasAuthority(AuthoritiesConstants.ADMIN)
