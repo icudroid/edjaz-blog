@@ -42,7 +42,6 @@ public class SetupResourceIntTest {
     @Autowired
     private BlogSearchRepository blogSearchRepository;
 
-
     @Autowired
     private WebApplicationContext context;
 
@@ -52,9 +51,7 @@ public class SetupResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        final SetupResource blogItemResource = new SetupResource();
-        this.restSetupMockMvc = MockMvcBuilders.webAppContextSetup(context)
-        .build();
+        this.restSetupMockMvc = MockMvcBuilders.webAppContextSetup(context).build();
     }
 
     @Before

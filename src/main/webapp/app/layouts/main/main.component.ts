@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRouteSnapshot, NavigationEnd } from '@angular/router';
+import {Component, OnInit} from '@angular/core';
+import {ActivatedRouteSnapshot, NavigationEnd, Router} from '@angular/router';
 
-import { JhiLanguageHelper } from '../../shared';
+import {JhiLanguageHelper, SetupService} from '../../shared';
 
 @Component({
     selector: 'jhi-main',
@@ -9,10 +9,10 @@ import { JhiLanguageHelper } from '../../shared';
 })
 export class JhiMainComponent implements OnInit {
 
-    constructor(
-        private jhiLanguageHelper: JhiLanguageHelper,
-        private router: Router
-    ) {}
+    constructor(private jhiLanguageHelper: JhiLanguageHelper,
+                private router: Router,
+                private setupService: SetupService) {
+    }
 
     private getPageTitle(routeSnapshot: ActivatedRouteSnapshot) {
         let title: string = (routeSnapshot.data && routeSnapshot.data['pageTitle']) ? routeSnapshot.data['pageTitle'] : 'blogApp';
@@ -23,6 +23,10 @@ export class JhiMainComponent implements OnInit {
     }
 
     ngOnInit() {
+        this.setupService.isFirstSetup().subscribe((res) => {
+            // ouvrir la configuration
+            this.router.navigate(['setup']);
+        });
         this.router.events.subscribe((event) => {
             if (event instanceof NavigationEnd) {
                 this.jhiLanguageHelper.updateTitle(this.getPageTitle(this.router.routerState.snapshot.root));

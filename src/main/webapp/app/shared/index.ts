@@ -1,3 +1,4 @@
+export * from './setup/setup.service'
 export * from './constants/error.constants';
 export * from './constants/pagination.constants';
 export * from './alert/alert.component';

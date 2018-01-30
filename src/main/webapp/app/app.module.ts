@@ -24,6 +24,7 @@ import {
     ActiveMenuDirective,
     ErrorComponent
 } from './layouts';
+import {BlogSetupModule} from './setup/setup.module';
 
 @NgModule({
     imports: [
@@ -35,6 +36,7 @@ import {
         BlogAdminModule,
         BlogAccountModule,
         BlogEntityModule,
+        BlogSetupModule,
         // jhipster-needle-angular-add-module JHipster will add new module here
     ],
     declarations: [
