@@ -15,7 +15,7 @@ public class SetupResource {
 
     private final Logger log = LoggerFactory.getLogger(SetupResource.class);
 
-    @PreAuthorize("isFirstSetup() or hasAuthority('ROLE_ADMIN')")
+    @PreAuthorize("isFirstSetup()")
     @GetMapping("/setup")
     @Timed
     public ResponseEntity<Boolean> getSetup() {
